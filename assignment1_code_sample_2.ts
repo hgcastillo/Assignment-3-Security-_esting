@@ -1,6 +1,9 @@
 import * as readline from 'readline';
+
 import * as mysql from 'mysql';
+
 import { exec } from 'child_process';
+
 import * as http from 'http';
 
 const dbConfig = {
