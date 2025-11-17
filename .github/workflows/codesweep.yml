@@ -1,28 +1,17 @@
 name: "HCL AppScan CodeSweep"
-
-# Triggers the scan on a push to the main branch
-# OR when a Pull Request is opened/updated
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    types: [opened, synchronize]
-
+    types: [closed]
 jobs:
-  scan:
+  publish:
     runs-on: ubuntu-latest
     steps:
-      # 1. Checks out your repository code
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          # This is required for CodeSweep to compare
-          # the changes in a pull request.
-          fetch-depth: 0 
-
-      # 2. Runs the CodeSweep scan
-      - name: Run AppScan CodeSweep
+      - name: Publish issues to ASoC
         uses: HCL-TECH-SOFTWARE/appscan-codesweep-action@v2.1
-        env:
-          # This token is automatically provided by GitHub
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          asoc_key: ${{secrets.ASOC_KEY}}
+          asoc_secret: ${{secrets.ASOC_SECRET}}
+          publish_on_merge: true
+          application_id: <your ASoC application ID>
+    env: 
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
